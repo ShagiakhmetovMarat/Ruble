@@ -7,19 +7,24 @@
 
 import UIKit
 
-class RubleViewController: UIViewController {
+class RubleViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+    private lazy var tableView: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .insetGrouped)
+        tableView.register(viewModel.cell, forCellReuseIdentifier: viewModel.identifier)
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.rowHeight = viewModel.heightOfRows
+        tableView.backgroundColor = .lightGreen
+        return tableView
+    }()
+    /*
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.frame = view.bounds
-        scrollView.contentSize = contentSize
+        scrollView.contentSize = viewModel.contentSize(view)
+        viewModel.addSubviews(subviews: labelTest, on: scrollView)
         return scrollView
-    }()
-    
-    private lazy var contentView: UIView = {
-        let view = UIView()
-        view.frame.size = contentSize
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
     }()
     
     private lazy var labelTest: UILabel = {
@@ -29,55 +34,44 @@ class RubleViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
-    private var contentSize: CGSize {
-        CGSize(width: view.frame.width, height: view.frame.height)
-    }
+    */
+    private let viewModel = RubleViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupDesign()
-        setupConstraints()
+        setDesign()
+        addSubviews()
+        setConstraints()
     }
     
-    private func setupDesign() {
-        view.backgroundColor = #colorLiteral(red: 0.8325235844, green: 0.9924016595, blue: 0.8371576667, alpha: 1)
-        setupSubviews(subviews: contentView)
-        setupSubviewsOnContentView(subviews: scrollView)
-        setupSubviewsOnScrollView(subviews: labelTest)
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        viewModel.numberOfRows
     }
     
-    private func setupSubviews(subviews: UIView...) {
-        subviews.forEach { subview in
-            view.addSubview(subview)
-        }
-    }
-    
-    private func setupSubviewsOnContentView(subviews: UIView...) {
-        subviews.forEach { subview in
-            contentView.addSubview(subview)
-        }
-    }
-    
-    private func setupSubviewsOnScrollView(subviews: UIView...) {
-        subviews.forEach { subview in
-            scrollView.addSubview(subview)
-        }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: viewModel.identifier, for: indexPath)
+        viewModel.customCell(cell: cell as! RubleCell, indexPath: indexPath)
+        return cell
     }
 }
 
 extension RubleViewController {
-    private func setupConstraints() {
+    private func setDesign() {
+        view.backgroundColor = .lightGreen
+    }
+    
+    private func addSubviews() {
+        viewModel.addSubviews(subviews: tableView, on: view)
+    }
+}
+
+extension RubleViewController {
+    private func setConstraints() {
         NSLayoutConstraint.activate([
-            contentView.topAnchor.constraint(equalTo: view.topAnchor),
-            contentView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            contentView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            contentView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
-        
-        NSLayoutConstraint.activate([
-            labelTest.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
-            labelTest.centerYAnchor.constraint(equalTo: scrollView.centerYAnchor)
+            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
 }

@@ -7,9 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C37D58832D8414C90027EC65 /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C37D58822D8414C90027EC65 /* SettingViewModel.swift */; };
+		C37D58862D84182F0027EC65 /* SettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C37D58852D84182F0027EC65 /* SettingCell.swift */; };
+		C37D58892D8419380027EC65 /* SettingCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C37D58882D8419350027EC65 /* SettingCellViewModel.swift */; };
+		C37D588B2D8457270027EC65 /* RubleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C37D588A2D8457270027EC65 /* RubleViewModel.swift */; };
+		C37D588D2D84A2360027EC65 /* RubleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C37D588C2D84A2360027EC65 /* RubleCell.swift */; };
+		C37D588F2D84A2480027EC65 /* RubleCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C37D588E2D84A2480027EC65 /* RubleCellViewModel.swift */; };
 		C3EAB1EE2A038AFC001991FB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EAB1ED2A038AFC001991FB /* AppDelegate.swift */; };
 		C3EAB1F02A038AFC001991FB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EAB1EF2A038AFC001991FB /* SceneDelegate.swift */; };
-		C3EAB1F22A038AFC001991FB /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EAB1F12A038AFC001991FB /* MainTabBarViewController.swift */; };
 		C3EAB1F72A038AFD001991FB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C3EAB1F62A038AFD001991FB /* Assets.xcassets */; };
 		C3EAB1FA2A038AFD001991FB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3EAB1F82A038AFD001991FB /* LaunchScreen.storyboard */; };
 		C3EAB2062A038DA8001991FB /* RubleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3EAB2052A038DA8001991FB /* RubleViewController.swift */; };
@@ -19,10 +24,15 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C37D58822D8414C90027EC65 /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
+		C37D58852D84182F0027EC65 /* SettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingCell.swift; sourceTree = "<group>"; };
+		C37D58882D8419350027EC65 /* SettingCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingCellViewModel.swift; sourceTree = "<group>"; };
+		C37D588A2D8457270027EC65 /* RubleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RubleViewModel.swift; sourceTree = "<group>"; };
+		C37D588C2D84A2360027EC65 /* RubleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RubleCell.swift; sourceTree = "<group>"; };
+		C37D588E2D84A2480027EC65 /* RubleCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RubleCellViewModel.swift; sourceTree = "<group>"; };
 		C3EAB1EA2A038AFC001991FB /* Ruble.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ruble.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3EAB1ED2A038AFC001991FB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C3EAB1EF2A038AFC001991FB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		C3EAB1F12A038AFC001991FB /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
 		C3EAB1F62A038AFD001991FB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C3EAB1F92A038AFD001991FB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C3EAB1FB2A038AFD001991FB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -43,6 +53,34 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C37D58812D8414A20027EC65 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				C37D58872D8419060027EC65 /* UITableViewCellViewModels */,
+				C37D588A2D8457270027EC65 /* RubleViewModel.swift */,
+				C37D58822D8414C90027EC65 /* SettingViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		C37D58842D8417EC0027EC65 /* UITableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				C37D588C2D84A2360027EC65 /* RubleCell.swift */,
+				C37D58852D84182F0027EC65 /* SettingCell.swift */,
+			);
+			path = UITableViewCell;
+			sourceTree = "<group>";
+		};
+		C37D58872D8419060027EC65 /* UITableViewCellViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				C37D588E2D84A2480027EC65 /* RubleCellViewModel.swift */,
+				C37D58882D8419350027EC65 /* SettingCellViewModel.swift */,
+			);
+			path = UITableViewCellViewModels;
+			sourceTree = "<group>";
+		};
 		C3EAB1E12A038AFC001991FB = {
 			isa = PBXGroup;
 			children = (
@@ -65,6 +103,7 @@
 				C3EAB2032A038B4C001991FB /* Applications */,
 				C3EAB20C2A042FF3001991FB /* Models */,
 				C3EAB2012A038B23001991FB /* ViewControllers */,
+				C37D58812D8414A20027EC65 /* ViewModels */,
 				C3EAB2092A039CD9001991FB /* Extenstions + UIKit */,
 				C3EAB2042A038B62001991FB /* Supporting */,
 			);
@@ -74,7 +113,7 @@
 		C3EAB2012A038B23001991FB /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				C3EAB1F12A038AFC001991FB /* MainTabBarViewController.swift */,
+				C37D58842D8417EC0027EC65 /* UITableViewCell */,
 				C3EAB2052A038DA8001991FB /* RubleViewController.swift */,
 				C3EAB2072A038DBD001991FB /* SettingViewController.swift */,
 			);
@@ -144,7 +183,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1430;
-				LastUpgradeCheck = 1430;
+				LastUpgradeCheck = 1620;
 				TargetAttributes = {
 					C3EAB1E92A038AFC001991FB = {
 						CreatedOnToolsVersion = 14.3;
@@ -187,8 +226,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				C3EAB2082A038DBD001991FB /* SettingViewController.swift in Sources */,
+				C37D588B2D8457270027EC65 /* RubleViewModel.swift in Sources */,
+				C37D58832D8414C90027EC65 /* SettingViewModel.swift in Sources */,
+				C37D58862D84182F0027EC65 /* SettingCell.swift in Sources */,
+				C37D58892D8419380027EC65 /* SettingCellViewModel.swift in Sources */,
+				C37D588F2D84A2480027EC65 /* RubleCellViewModel.swift in Sources */,
+				C37D588D2D84A2360027EC65 /* RubleCell.swift in Sources */,
 				C3EAB20B2A039D08001991FB /* UIColor.swift in Sources */,
-				C3EAB1F22A038AFC001991FB /* MainTabBarViewController.swift in Sources */,
 				C3EAB20E2A043007001991FB /* DataManager.swift in Sources */,
 				C3EAB2062A038DA8001991FB /* RubleViewController.swift in Sources */,
 				C3EAB1EE2A038AFC001991FB /* AppDelegate.swift in Sources */,
@@ -246,6 +290,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -306,6 +351,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
