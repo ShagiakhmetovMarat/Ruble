@@ -57,7 +57,10 @@ class RubleViewController: UIViewController, UITableViewDataSource, UITableViewD
 
 extension RubleViewController {
     private func setDesign() {
-        view.backgroundColor = .lightGreen
+        let appearence = UINavigationBarAppearance()
+        appearence.backgroundColor = .lightGreen
+        navigationController?.navigationBar.standardAppearance = appearence
+        navigationController?.navigationBar.compactAppearance = appearence
     }
     
     private func addSubviews() {

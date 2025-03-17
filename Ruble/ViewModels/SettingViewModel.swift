@@ -16,6 +16,7 @@ protocol SettingViewModelProtocol {
     
     func addSubviews(subviews: UIView..., on otherSubview: UIView)
     func customCell(cell: SettingCell, indexPath: IndexPath)
+    func currencyViewController() -> CurrencyViewModelProtocol
 }
 
 class SettingViewModel: SettingViewModelProtocol {
@@ -24,6 +25,9 @@ class SettingViewModel: SettingViewModelProtocol {
     var indentifier = "cell"
     var numberOfRows = 2
     var heightOfRows: CGFloat = 55
+    private var currency: [Currency] {
+        fetchData()
+    }
     
     func addSubviews(subviews: UIView..., on otherSubview: UIView) {
         subviews.forEach { subview in
@@ -35,6 +39,10 @@ class SettingViewModel: SettingViewModelProtocol {
         cell.viewModel.view.backgroundColor = color(indexPath.row)
         cell.viewModel.image.image = image(name: images(indexPath.row))
         cell.viewModel.title.text = text(indexPath.row)
+    }
+    
+    func currencyViewController() -> CurrencyViewModelProtocol {
+        CurrencyViewModel(currency: currency)
     }
 }
 
@@ -63,5 +71,23 @@ extension SettingViewModel {
         case 0: "Currency"
         default: "Language"
         }
+    }
+    
+    private func fetchData() -> [Currency] {
+        var currency: [Currency] = []
+        
+        let flags = DataManager.shared.flag
+        let charCodes = DataManager.shared.charCode
+        let names = DataManager.shared.name
+        let iterrationCount = min(flags.count, charCodes.count, names.count)
+        
+        for index in 0..<iterrationCount {
+            let info = Currency(flag: flags[index],
+                                charCode: charCodes[index],
+                                name: names[index])
+            currency.append(info)
+        }
+        
+        return currency
     }
 }

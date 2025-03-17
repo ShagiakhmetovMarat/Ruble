@@ -11,8 +11,8 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .insetGrouped)
         tableView.register(viewModel.cell, forCellReuseIdentifier: viewModel.indentifier)
-        tableView.backgroundColor = .emerald
-        tableView.separatorColor = .emerald
+        tableView.backgroundColor = .darkGreen
+        tableView.separatorColor = .darkGreen
         tableView.delegate = self
         tableView.dataSource = self
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -41,18 +41,37 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        transition(row: indexPath.row)
     }
 }
 
 extension SettingViewController {
     private func setDesign() {
-        view.backgroundColor = .emerald
         title = viewModel.title
         navigationController?.navigationBar.prefersLargeTitles = true
+        
+        let appearence = UINavigationBarAppearance()
+        appearence.backgroundColor = .darkGreen
+        navigationController?.navigationBar.standardAppearance = appearence
+        navigationController?.navigationBar.compactAppearance = appearence
     }
     
     private func addSubviews() {
         viewModel.addSubviews(subviews: tableView, on: view)
+    }
+    
+    private func transition(row: Int) {
+        switch row {
+        case 0: currencyViewController()
+        default: break
+        }
+    }
+    
+    private func currencyViewController() {
+        let currencyViewModel = viewModel.currencyViewController()
+        let currencyVC = CurrencyViewController()
+        currencyVC.viewModel = currencyViewModel
+        navigationController?.pushViewController(currencyVC, animated: true)
     }
 }
 

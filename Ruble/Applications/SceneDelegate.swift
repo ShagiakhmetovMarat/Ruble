@@ -20,7 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     private func createTabBar() -> UITabBarController {
-        let rubleVC = RubleViewController()
+        let rubleVC = UINavigationController(rootViewController: RubleViewController())
         let settingNC = UINavigationController(rootViewController: SettingViewController())
         
         let tabBar = UITabBarController()
