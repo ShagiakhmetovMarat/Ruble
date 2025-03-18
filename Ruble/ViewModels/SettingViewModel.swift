@@ -16,6 +16,9 @@ protocol SettingViewModelProtocol {
     
     func addSubviews(subviews: UIView..., on otherSubview: UIView)
     func customCell(cell: SettingCell, indexPath: IndexPath)
+    func getData()
+    func saveData(currencies: [Currency])
+    func sendDataToRubleViewController()
     func currencyViewController() -> CurrencyViewModelProtocol
 }
 
@@ -25,9 +28,7 @@ class SettingViewModel: SettingViewModelProtocol {
     var indentifier = "cell"
     var numberOfRows = 2
     var heightOfRows: CGFloat = 55
-    private var currency: [Currency] {
-        fetchData()
-    }
+    private var currency: [Currency] = []
     
     func addSubviews(subviews: UIView..., on otherSubview: UIView) {
         subviews.forEach { subview in
@@ -39,6 +40,18 @@ class SettingViewModel: SettingViewModelProtocol {
         cell.viewModel.view.backgroundColor = color(indexPath.row)
         cell.viewModel.image.image = image(name: images(indexPath.row))
         cell.viewModel.title.text = text(indexPath.row)
+    }
+    
+    func getData() {
+        currency = fetchCurrencies()
+    }
+    
+    func saveData(currencies: [Currency]) {
+        currency = currencies
+    }
+    
+    func sendDataToRubleViewController() {
+        
     }
     
     func currencyViewController() -> CurrencyViewModelProtocol {
@@ -73,7 +86,12 @@ extension SettingViewModel {
         }
     }
     
-    private func fetchData() -> [Currency] {
+    private func fetchCurrencies() -> [Currency] {
+        let currencies = StorageManager.shared.fetchData()
+        return currencies.isEmpty ? getData() : currencies
+    }
+    
+    private func getData() -> [Currency] {
         var currency: [Currency] = []
         
         let flags = DataManager.shared.flag
@@ -84,7 +102,8 @@ extension SettingViewModel {
         for index in 0..<iterrationCount {
             let info = Currency(flag: flags[index],
                                 charCode: charCodes[index],
-                                name: names[index])
+                                name: names[index],
+                                isOn: false)
             currency.append(info)
         }
         

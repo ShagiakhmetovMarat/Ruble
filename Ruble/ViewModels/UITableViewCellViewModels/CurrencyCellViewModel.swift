@@ -32,20 +32,20 @@ class CurrencyCellViewModel: CurrencyCellViewModelProtocol {
     }
     
     func setTitle() {
-        title.font = .systemFont(ofSize: 25, weight: .medium)
+        title.font = .systemFont(ofSize: 18, weight: .regular)
     }
     
     func setConstraints(on contentView: UIView) {
         NSLayoutConstraint.activate([
-            flagImage.widthAnchor.constraint(equalToConstant: 90),
-            flagImage.heightAnchor.constraint(equalToConstant: 55),
+            flagImage.widthAnchor.constraint(equalToConstant: 45),
+            flagImage.heightAnchor.constraint(equalToConstant: 30),
             flagImage.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             flagImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10)
         ])
         
         NSLayoutConstraint.activate([
             title.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            title.leadingAnchor.constraint(equalTo: flagImage.trailingAnchor, constant: 25)
+            title.leadingAnchor.constraint(equalTo: flagImage.trailingAnchor, constant: 15)
         ])
     }
 }

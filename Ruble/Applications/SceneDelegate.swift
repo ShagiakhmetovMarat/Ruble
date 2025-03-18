@@ -16,9 +16,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(windowScene: windowScene)
         window?.makeKeyAndVisible()
-        window?.rootViewController = createTabBar()
+        window?.rootViewController = MainTabBarViewController()
     }
-    
+    /*
     private func createTabBar() -> UITabBarController {
         let rubleVC = UINavigationController(rootViewController: RubleViewController())
         let settingNC = UINavigationController(rootViewController: SettingViewController())
@@ -74,5 +74,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         return tabBar
     }
+     */
 }
 

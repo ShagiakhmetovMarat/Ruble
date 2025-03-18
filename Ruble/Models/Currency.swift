@@ -7,8 +7,9 @@
 
 import Foundation
 
-struct Currency {
+struct Currency: Codable {
     let flag: String
     let charCode: String
     let name: String
+    var isOn: Bool
 }

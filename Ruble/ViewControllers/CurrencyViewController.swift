@@ -7,8 +7,8 @@
 
 import UIKit
 
-class CurrencyViewController: UITableViewController {
-    private lazy var listOfCurrency: UITableView = {
+class CurrencyViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .insetGrouped)
         tableView.register(viewModel.cell, forCellReuseIdentifier: viewModel.identifier)
         tableView.backgroundColor = .darkGreen
@@ -29,18 +29,24 @@ class CurrencyViewController: UITableViewController {
         setConstraints()
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        viewModel.sendDataToSetting()
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         viewModel.numberOfRows
     }
-
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: viewModel.identifier, for: indexPath)
         viewModel.customCell(cell: cell as! CurrencyCell, indexPath: indexPath)
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        viewModel.toggle(tableView: tableView, and: indexPath)
     }
 }
 
@@ -51,20 +57,23 @@ extension CurrencyViewController {
         
         let appearence = UINavigationBarAppearance()
         appearence.backgroundColor = .darkGreen
+        appearence.titleTextAttributes = [.foregroundColor: UIColor.white]
+        appearence.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
         navigationController?.navigationBar.standardAppearance = appearence
         navigationController?.navigationBar.compactAppearance = appearence
+        navigationController?.navigationBar.tintColor = .white
     }
     
     private func addSubviews() {
-        viewModel.addSubviews(subviews: listOfCurrency, on: view)
+        viewModel.addSubviews(subviews: tableView, on: view)
     }
     
     private func setConstraints() {
         NSLayoutConstraint.activate([
-            listOfCurrency.topAnchor.constraint(equalTo: view.topAnchor),
-            listOfCurrency.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            listOfCurrency.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            listOfCurrency.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
 }

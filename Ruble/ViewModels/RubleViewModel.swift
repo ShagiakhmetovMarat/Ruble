@@ -16,6 +16,8 @@ protocol RubleViewModelProtocol {
     func addSubviews(subviews: UIView..., on otherSubview: UIView)
     func contentSize(_ view: UIView) -> CGSize
     func customCell(cell: RubleCell, indexPath: IndexPath)
+    func saveData(currencies: [Currency])
+    
 }
 
 class RubleViewModel: RubleViewModelProtocol {
@@ -23,6 +25,7 @@ class RubleViewModel: RubleViewModelProtocol {
     var identifier = "cell"
     var numberOfRows = 1
     var heightOfRows: CGFloat = 125
+    private var currency: [Currency] = []
     
     func addSubviews(subviews: UIView..., on otherSubview: UIView) {
         subviews.forEach { subview in
@@ -40,5 +43,9 @@ class RubleViewModel: RubleViewModelProtocol {
         cell.viewModel.value.text = "89.54"
         cell.viewModel.name.text = "US Dollar"
         cell.contentView.backgroundColor = .systemBlue
+    }
+    
+    func saveData(currencies: [Currency]) {
+        currency = currencies
     }
 }

@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol SettingViewControllerInput {
+    func dataToSetting(currency: [Currency])
+}
+
 class SettingViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .insetGrouped)
@@ -26,6 +30,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         super.viewDidLoad()
         setDesign()
         addSubviews()
+        setData()
         setConstraints()
     }
     
@@ -45,6 +50,12 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
 }
 
+extension SettingViewController: SettingViewControllerInput {
+    func dataToSetting(currency: [Currency]) {
+        viewModel.saveData(currencies: currency)
+    }
+}
+
 extension SettingViewController {
     private func setDesign() {
         title = viewModel.title
@@ -52,12 +63,19 @@ extension SettingViewController {
         
         let appearence = UINavigationBarAppearance()
         appearence.backgroundColor = .darkGreen
+        appearence.titleTextAttributes = [.foregroundColor: UIColor.white]
+        appearence.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
         navigationController?.navigationBar.standardAppearance = appearence
         navigationController?.navigationBar.compactAppearance = appearence
+        navigationController?.navigationBar.tintColor = .white
     }
     
     private func addSubviews() {
         viewModel.addSubviews(subviews: tableView, on: view)
+    }
+    
+    private func setData() {
+        viewModel.getData()
     }
     
     private func transition(row: Int) {
@@ -71,6 +89,7 @@ extension SettingViewController {
         let currencyViewModel = viewModel.currencyViewController()
         let currencyVC = CurrencyViewController()
         currencyVC.viewModel = currencyViewModel
+        currencyVC.viewModel.delegate = self
         navigationController?.pushViewController(currencyVC, animated: true)
     }
 }

@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol RubleViewControllerInput {
+    func dataToRuble(currency: [Currency])
+}
+
 class RubleViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .insetGrouped)
@@ -65,6 +69,12 @@ extension RubleViewController {
     
     private func addSubviews() {
         viewModel.addSubviews(subviews: tableView, on: view)
+    }
+}
+
+extension RubleViewController: RubleViewControllerInput {
+    func dataToRuble(currency: [Currency]) {
+        viewModel.saveData(currencies: currency)
     }
 }
 

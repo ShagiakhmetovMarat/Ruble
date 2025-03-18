@@ -5,7 +5,7 @@
 //  Created by Marat Shagiakhmetov on 04.05.2023.
 //
 
-import Foundation
+import UIKit
 
 struct DataManager {
     static let shared = DataManager()
