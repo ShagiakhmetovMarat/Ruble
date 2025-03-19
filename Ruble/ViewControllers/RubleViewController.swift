@@ -22,24 +22,8 @@ class RubleViewController: UIViewController, UITableViewDataSource, UITableViewD
         tableView.backgroundColor = .lightGreen
         return tableView
     }()
-    /*
-    private lazy var scrollView: UIScrollView = {
-        let scrollView = UIScrollView()
-        scrollView.frame = view.bounds
-        scrollView.contentSize = viewModel.contentSize(view)
-        viewModel.addSubviews(subviews: labelTest, on: scrollView)
-        return scrollView
-    }()
     
-    private lazy var labelTest: UILabel = {
-        let label = UILabel()
-        label.text = "Test label"
-        label.textColor = .black
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    */
-    private let viewModel = RubleViewModel()
+    let viewModel = RubleViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()

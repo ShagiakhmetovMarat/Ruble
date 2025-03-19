@@ -12,12 +12,13 @@ protocol RubleViewModelProtocol {
     var identifier: String { get }
     var numberOfRows: Int { get }
     var heightOfRows: CGFloat { get }
+    var delegate: SettingViewControllerInput? { get set }
     
     func addSubviews(subviews: UIView..., on otherSubview: UIView)
     func contentSize(_ view: UIView) -> CGSize
     func customCell(cell: RubleCell, indexPath: IndexPath)
     func saveData(currencies: [Currency])
-    
+    func sendDataToSettingViewController()
 }
 
 class RubleViewModel: RubleViewModelProtocol {
@@ -25,6 +26,7 @@ class RubleViewModel: RubleViewModelProtocol {
     var identifier = "cell"
     var numberOfRows = 1
     var heightOfRows: CGFloat = 125
+    var delegate: SettingViewControllerInput?
     private var currency: [Currency] = []
     
     func addSubviews(subviews: UIView..., on otherSubview: UIView) {
@@ -47,5 +49,9 @@ class RubleViewModel: RubleViewModelProtocol {
     
     func saveData(currencies: [Currency]) {
         currency = currencies
+    }
+    
+    func sendDataToSettingViewController() {
+        delegate?.dataToSetting(currency: currency)
     }
 }

@@ -24,7 +24,7 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         return tableView
     }()
     
-    private let viewModel = SettingViewModel()
+    let viewModel = SettingViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()

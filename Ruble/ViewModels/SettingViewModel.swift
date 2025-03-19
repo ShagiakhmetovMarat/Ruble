@@ -13,6 +13,7 @@ protocol SettingViewModelProtocol {
     var indentifier: String { get }
     var numberOfRows: Int { get }
     var heightOfRows: CGFloat { get }
+    var delegate: RubleViewControllerInput? { get set }
     
     func addSubviews(subviews: UIView..., on otherSubview: UIView)
     func customCell(cell: SettingCell, indexPath: IndexPath)
@@ -28,6 +29,7 @@ class SettingViewModel: SettingViewModelProtocol {
     var indentifier = "cell"
     var numberOfRows = 2
     var heightOfRows: CGFloat = 55
+    var delegate: RubleViewControllerInput?
     private var currency: [Currency] = []
     
     func addSubviews(subviews: UIView..., on otherSubview: UIView) {
@@ -51,7 +53,7 @@ class SettingViewModel: SettingViewModelProtocol {
     }
     
     func sendDataToRubleViewController() {
-        
+        delegate?.dataToRuble(currency: currency)
     }
     
     func currencyViewController() -> CurrencyViewModelProtocol {

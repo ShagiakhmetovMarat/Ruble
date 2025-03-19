@@ -41,7 +41,6 @@ class SettingCellViewModel: SettingCellViewModelProtocol {
     
     func setTitle() {
         title.font = .systemFont(ofSize: 20, weight: .semibold)
-        title.textColor = .black
     }
     
     func setImageArrow() {

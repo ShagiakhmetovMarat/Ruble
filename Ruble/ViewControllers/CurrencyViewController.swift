@@ -35,7 +35,15 @@ class CurrencyViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel.numberOfRows
+        viewModel.numberOfRows(section)
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        viewModel.numberOfSection
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        viewModel.titleHeader(section)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -46,6 +54,7 @@ class CurrencyViewController: UIViewController, UITableViewDelegate, UITableView
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+//        print("\(indexPath.row)")
         viewModel.toggle(tableView: tableView, and: indexPath)
     }
 }

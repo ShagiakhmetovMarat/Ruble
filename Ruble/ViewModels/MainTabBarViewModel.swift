@@ -14,9 +14,9 @@ protocol MainTabBarViewModelProtocol {
     var imageSecond: UIImage? { get }
     var tagFirst: Int { get }
     var tagSecond: Int { get }
-    var delegate: SettingViewModel { get set }
     
-    func sendDataToRubleViewController()
+    func isFirstVC(_ viewControllers: [UIViewController]?) -> RubleViewController?
+    func isSecondVC(_ viewControllers: [UIViewController]?) -> SettingViewController?
 }
 
 class MainTabBarViewModel: MainTabBarViewModelProtocol {
@@ -26,9 +26,12 @@ class MainTabBarViewModel: MainTabBarViewModelProtocol {
     var imageSecond = UIImage(systemName: "gear")
     var tagFirst = 0
     var tagSecond = 1
-    var delegate = SettingViewModel()
     
-    func sendDataToRubleViewController() {
-        delegate.sendDataToRubleViewController()
+    func isFirstVC(_ viewControllers: [UIViewController]?) -> RubleViewController? {
+        (viewControllers?[0] as? UINavigationController)?.topViewController as? RubleViewController
+    }
+    
+    func isSecondVC(_ viewControllers: [UIViewController]?) -> SettingViewController? {
+        (viewControllers?[1] as? UINavigationController)?.topViewController as? SettingViewController
     }
 }

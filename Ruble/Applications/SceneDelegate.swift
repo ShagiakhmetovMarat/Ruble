@@ -19,31 +19,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.rootViewController = MainTabBarViewController()
     }
     /*
-    private func createTabBar() -> UITabBarController {
-        let rubleVC = UINavigationController(rootViewController: RubleViewController())
-        let settingNC = UINavigationController(rootViewController: SettingViewController())
-        
-        let tabBar = UITabBarController()
-        tabBar.viewControllers = [
-            setupVC(viewController: rubleVC,
-                    title: "Ruble",
-                    image: UIImage(systemName: "rublesign")),
-            setupVC(viewController: settingNC,
-                    title: "Settings",
-                    image: UIImage(systemName: "gear"))
-        ]
-        tabBar.tabBar.tintColor = .darkGreen
-        tabBar.tabBar.backgroundColor = .white
-        
-        return tabBar
-    }
-    
-    private func setupVC(viewController: UIViewController, title: String, image: UIImage?) -> UIViewController {
-        viewController.tabBarItem.title = title
-        viewController.tabBarItem.image = image
-        return viewController
-    }
-    
     private func setupTabBarAppearence(tabBar: UITabBarController) -> UITabBarController {
         let positionX: CGFloat = 10
         let positionY: CGFloat = 18
