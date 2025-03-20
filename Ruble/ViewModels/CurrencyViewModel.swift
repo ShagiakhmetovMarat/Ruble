@@ -30,7 +30,7 @@ class CurrencyViewModel: CurrencyViewModelProtocol {
     var cell: AnyClass = CurrencyCell.self
     var identifier = "cell"
     var numberOfSection = 2
-    var heightOfRow: CGFloat = 45
+    var heightOfRow: CGFloat = 50
     var delegate: SettingViewControllerInput!
     private var currency: [Currency] = []
     private var activeCurrencies: [Currency] = []
@@ -43,10 +43,9 @@ class CurrencyViewModel: CurrencyViewModelProtocol {
     }
     
     func customCell(cell: CurrencyCell, indexPath: IndexPath) {
-        cell.viewModel.flagImage.image = image(indexPath.section)[indexPath.row]
-        cell.viewModel.title.text = name(indexPath.section)[indexPath.row]
-        cell.accessoryType = checkmark(indexPath.section)
-        cell.tintColor = .darkGreen
+        cell.viewModel.flagImage.image = image(indexPath)
+        cell.viewModel.charCode.text = charCode(indexPath)
+        cell.viewModel.title.text = name(indexPath)
     }
     
     func addSubviews(subviews: UIView..., on otherSubview: UIView) {
@@ -68,11 +67,10 @@ class CurrencyViewModel: CurrencyViewModelProtocol {
     }
     
     func toggle(tableView: UITableView, and indexPath: IndexPath) {
-//        currency[indexPath.row].isOn.toggle()
-        print("\(currency[indexPath.row])")
-//        tableView.reloadRows(at: [indexPath], with: .automatic)
-//        StorageManager.shared.saveData(currency: currency)
-//        moveRow(tableView: tableView, and: indexPath)
+        currency[indexPath.row].isOn.toggle()
+        setNumberRow(indexPath: indexPath)
+        moveRow(tableView: tableView, and: indexPath)
+        StorageManager.shared.saveData(currency: currency)
     }
     
     func sendDataToSetting() {
@@ -85,36 +83,30 @@ extension CurrencyViewModel {
         section == 0 ? "Active currencies" : "Unactive currencies"
     }
     
-    private func image(_ section: Int) -> [UIImage?] {
-        images(flags(isOn(section: section, and: currency)))
+    private func image(_ indexPath: IndexPath) -> UIImage? {
+        indexPath.section == 0 ? flag(activeCurrencies[indexPath.row].flag) : flag(unactiveCurrencies[indexPath.row].flag)
     }
     
-    private func name(_ section: Int) -> [String] {
-        names(isOn(section: section, and: currency))
+    private func flag(_ named: String) -> UIImage? {
+        UIImage(named: named)
     }
     
-    private func checkmark(_ section: Int) -> UITableViewCell.AccessoryType {
-        section == 0 ? .checkmark : .none
+    private func charCode(_ indexPath: IndexPath) -> String {
+        indexPath.section == 0 ? activeCurrencies[indexPath.row].charCode : unactiveCurrencies[indexPath.row].charCode
     }
     
-    private func isOn(section: Int, and currencies: [Currency]) -> [Currency] {
-        section == 0 ? currencies.filter({$0.isOn}) : currencies.filter({!$0.isOn})
+    private func name(_ indexPath: IndexPath) -> String {
+        indexPath.section == 0 ? activeCurrencies[indexPath.row].name : unactiveCurrencies[indexPath.row].name
     }
     
-    private func flags(_ currencies: [Currency]) -> [String] {
-        currencies.map({$0.flag})
-    }
-    
-    private func names(_ currencies: [Currency]) -> [String] {
-        currencies.map({$0.name})
-    }
-    
-    private func images(_ currencies: [String]) -> [UIImage?] {
-        var images: [UIImage?] = []
-        currencies.forEach { named in
-            images.append(UIImage(named: named))
+    private func setNumberRow(indexPath: IndexPath) {
+        if indexPath.section == 0 {
+            let currency = activeCurrencies.remove(at: indexPath.row)
+            unactiveCurrencies.append(currency)
+        } else {
+            let currency = unactiveCurrencies.remove(at: indexPath.row)
+            activeCurrencies.append(currency)
         }
-        return images
     }
     
     private func moveRow(tableView: UITableView, and indexPath: IndexPath) {

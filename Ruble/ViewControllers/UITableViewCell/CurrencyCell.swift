@@ -23,6 +23,7 @@ class CurrencyCell: UITableViewCell {
     
     private func setConfigure() {
         viewModel.setImage()
+        viewModel.setCharCode()
         viewModel.setTitle()
     }
     

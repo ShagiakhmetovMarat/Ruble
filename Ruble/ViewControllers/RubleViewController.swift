@@ -29,11 +29,16 @@ class RubleViewController: UIViewController, UITableViewDataSource, UITableViewD
         super.viewDidLoad()
         setDesign()
         addSubviews()
+//        fetchData()
         setConstraints()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         viewModel.numberOfRows
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        viewModel.numberOfSections
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -46,13 +51,17 @@ class RubleViewController: UIViewController, UITableViewDataSource, UITableViewD
 extension RubleViewController {
     private func setDesign() {
         let appearence = UINavigationBarAppearance()
-        appearence.backgroundColor = .lightGreen
+        appearence.backgroundColor = .darkGreen
         navigationController?.navigationBar.standardAppearance = appearence
         navigationController?.navigationBar.compactAppearance = appearence
     }
     
     private func addSubviews() {
         viewModel.addSubviews(subviews: tableView, on: view)
+    }
+    
+    private func fetchData() {
+        viewModel.fetchData(from: URLS.currencyAPI.rawValue, and: tableView)
     }
 }
 

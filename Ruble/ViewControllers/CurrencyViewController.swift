@@ -54,7 +54,6 @@ class CurrencyViewController: UIViewController, UITableViewDelegate, UITableView
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-//        print("\(indexPath.row)")
         viewModel.toggle(tableView: tableView, and: indexPath)
     }
 }

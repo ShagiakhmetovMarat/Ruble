@@ -9,10 +9,10 @@ import UIKit
 
 extension UIColor {
     static var darkGreen: UIColor {
-        #colorLiteral(red: 0.123832278, green: 0.5572088957, blue: 0.3964973092, alpha: 1)
+        #colorLiteral(red: 0.1146102175, green: 0.5292447805, blue: 0.377735436, alpha: 1)
     }
     static var lightGreen: UIColor {
-        #colorLiteral(red: 0.8325235844, green: 0.9924016595, blue: 0.8371576667, alpha: 1)
+        #colorLiteral(red: 0.8778675199, green: 1, blue: 0.896276772, alpha: 1)
     }
     static var beige: UIColor {
         #colorLiteral(red: 0.9999960065, green: 1, blue: 1, alpha: 0.4426997103)
@@ -38,5 +38,8 @@ extension UIColor {
     }
     static var canada: UIColor {
         #colorLiteral(red: 0.6320064068, green: 0.2928180695, blue: 0.2967930436, alpha: 1)
+    }
+    static var china: UIColor {
+        #colorLiteral(red: 0.521568656, green: 0.1098039225, blue: 0.05098039284, alpha: 1)
     }
 }

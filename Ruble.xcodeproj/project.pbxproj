@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		C301A7622D8897D3002C81C0 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = C301A7612D8897BE002C81C0 /* Currency.swift */; };
+		C31E21ED2D8C42BB0090D4CB /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31E21EC2D8C42BB0090D4CB /* NetworkManager.swift */; };
+		C31E21EF2D8C43E40090D4CB /* Exchange.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31E21EE2D8C43E40090D4CB /* Exchange.swift */; };
 		C37D58832D8414C90027EC65 /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C37D58822D8414C90027EC65 /* SettingViewModel.swift */; };
 		C37D58862D84182F0027EC65 /* SettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C37D58852D84182F0027EC65 /* SettingCell.swift */; };
 		C37D58892D8419380027EC65 /* SettingCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C37D58882D8419350027EC65 /* SettingCellViewModel.swift */; };
@@ -34,6 +36,8 @@
 
 /* Begin PBXFileReference section */
 		C301A7612D8897BE002C81C0 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
+		C31E21EC2D8C42BB0090D4CB /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		C31E21EE2D8C43E40090D4CB /* Exchange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exchange.swift; sourceTree = "<group>"; };
 		C37D58822D8414C90027EC65 /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
 		C37D58852D84182F0027EC65 /* SettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingCell.swift; sourceTree = "<group>"; };
 		C37D58882D8419350027EC65 /* SettingCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingCellViewModel.swift; sourceTree = "<group>"; };
@@ -103,12 +107,13 @@
 			path = UITableViewCellViewModels;
 			sourceTree = "<group>";
 		};
-		C39907C82D8958CB007A03CD /* StorageManager */ = {
+		C39907C82D8958CB007A03CD /* Services */ = {
 			isa = PBXGroup;
 			children = (
 				C39907C92D8958E3007A03CD /* StorageManager.swift */,
+				C31E21EC2D8C42BB0090D4CB /* NetworkManager.swift */,
 			);
-			path = StorageManager;
+			path = Services;
 			sourceTree = "<group>";
 		};
 		C3EAB1E12A038AFC001991FB = {
@@ -131,7 +136,7 @@
 			isa = PBXGroup;
 			children = (
 				C3EAB2032A038B4C001991FB /* Applications */,
-				C39907C82D8958CB007A03CD /* StorageManager */,
+				C39907C82D8958CB007A03CD /* Services */,
 				C3EAB20C2A042FF3001991FB /* Models */,
 				C3EAB2012A038B23001991FB /* ViewControllers */,
 				C37D58812D8414A20027EC65 /* ViewModels */,
@@ -186,6 +191,7 @@
 				C3BCF5722D8869740076134C /* SinglyLinkedList.swift */,
 				C3EAB20D2A043007001991FB /* DataManager.swift */,
 				C301A7612D8897BE002C81C0 /* Currency.swift */,
+				C31E21EE2D8C43E40090D4CB /* Exchange.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -264,6 +270,7 @@
 				C3EAB2082A038DBD001991FB /* SettingViewController.swift in Sources */,
 				C3BCF56D2D88517B0076134C /* CurrencyViewModel.swift in Sources */,
 				C3BCF5712D88632E0076134C /* CurrencyCellViewModel.swift in Sources */,
+				C31E21ED2D8C42BB0090D4CB /* NetworkManager.swift in Sources */,
 				C37D588B2D8457270027EC65 /* RubleViewModel.swift in Sources */,
 				C37D58832D8414C90027EC65 /* SettingViewModel.swift in Sources */,
 				C37D58862D84182F0027EC65 /* SettingCell.swift in Sources */,
@@ -278,6 +285,7 @@
 				C3EAB2062A038DA8001991FB /* RubleViewController.swift in Sources */,
 				C3BCF5732D88698A0076134C /* SinglyLinkedList.swift in Sources */,
 				C3BCF56B2D8850CD0076134C /* CurrencyViewController.swift in Sources */,
+				C31E21EF2D8C43E40090D4CB /* Exchange.swift in Sources */,
 				C3EAB1EE2A038AFC001991FB /* AppDelegate.swift in Sources */,
 				C3EAB1F02A038AFC001991FB /* SceneDelegate.swift in Sources */,
 				C39907CC2D899396007A03CD /* MainTabBarViewController.swift in Sources */,

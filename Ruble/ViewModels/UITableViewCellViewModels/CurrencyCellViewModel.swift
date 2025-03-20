@@ -9,20 +9,23 @@ import UIKit
 
 protocol CurrencyCellViewModelProtocol {
     var flagImage: UIImageView { get }
+    var charCode: UILabel { get }
     var title: UILabel { get }
     
     func addSubviews(on subview: UIView)
     func setImage()
+    func setCharCode()
     func setTitle()
     func setConstraints(on contentView: UIView)
 }
 
 class CurrencyCellViewModel: CurrencyCellViewModelProtocol {
     var flagImage = UIImageView()
+    var charCode = UILabel()
     var title = UILabel()
     
     func addSubviews(on subview: UIView) {
-        addSubviews(subviews: flagImage, title, on: subview)
+        addSubviews(subviews: flagImage, charCode, title, on: subview)
     }
     
     func setImage() {
@@ -31,20 +34,29 @@ class CurrencyCellViewModel: CurrencyCellViewModelProtocol {
         flagImage.layer.borderWidth = 1
     }
     
+    func setCharCode() {
+        charCode.font = .systemFont(ofSize: 16, weight: .semibold)
+    }
+    
     func setTitle() {
-        title.font = .systemFont(ofSize: 18, weight: .regular)
+        title.font = .systemFont(ofSize: 16, weight: .regular)
     }
     
     func setConstraints(on contentView: UIView) {
         NSLayoutConstraint.activate([
-            flagImage.widthAnchor.constraint(equalToConstant: 45),
-            flagImage.heightAnchor.constraint(equalToConstant: 30),
+            flagImage.widthAnchor.constraint(equalToConstant: 55),
+            flagImage.heightAnchor.constraint(equalToConstant: 40),
             flagImage.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             flagImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10)
         ])
         
         NSLayoutConstraint.activate([
-            title.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            charCode.topAnchor.constraint(equalTo: flagImage.topAnchor),
+            charCode.leadingAnchor.constraint(equalTo: flagImage.trailingAnchor, constant: 15)
+        ])
+        
+        NSLayoutConstraint.activate([
+            title.bottomAnchor.constraint(equalTo: flagImage.bottomAnchor),
             title.leadingAnchor.constraint(equalTo: flagImage.trailingAnchor, constant: 15)
         ])
     }
