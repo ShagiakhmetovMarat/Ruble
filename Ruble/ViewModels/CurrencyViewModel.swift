@@ -67,14 +67,14 @@ class CurrencyViewModel: CurrencyViewModelProtocol {
     }
     
     func toggle(tableView: UITableView, and indexPath: IndexPath) {
-        currency[indexPath.row].isOn.toggle()
+        currencyToggle(indexPath: indexPath)
         setNumberRow(indexPath: indexPath)
         moveRow(tableView: tableView, and: indexPath)
-        StorageManager.shared.saveData(currency: currency)
+        StorageManager.shared.saveData(currency: activeCurrencies + unactiveCurrencies)
     }
     
     func sendDataToSetting() {
-        delegate.dataToSetting(currency: currency)
+        delegate.dataToSetting(currency: activeCurrencies + unactiveCurrencies)
     }
 }
 
@@ -97,6 +97,14 @@ extension CurrencyViewModel {
     
     private func name(_ indexPath: IndexPath) -> String {
         indexPath.section == 0 ? activeCurrencies[indexPath.row].name : unactiveCurrencies[indexPath.row].name
+    }
+    
+    private func currencyToggle(indexPath: IndexPath) {
+        if indexPath.section == 0 {
+            activeCurrencies[indexPath.row].isOn.toggle()
+        } else {
+            unactiveCurrencies[indexPath.row].isOn.toggle()
+        }
     }
     
     private func setNumberRow(indexPath: IndexPath) {

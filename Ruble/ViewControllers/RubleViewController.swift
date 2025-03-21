@@ -19,6 +19,8 @@ class RubleViewController: UIViewController, UITableViewDataSource, UITableViewD
         tableView.delegate = self
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.rowHeight = viewModel.heightOfRows
+        tableView.sectionHeaderHeight = viewModel.heightOfDistance
+        tableView.sectionFooterHeight = viewModel.heightOfDistance
         tableView.backgroundColor = .lightGreen
         return tableView
     }()
@@ -29,7 +31,8 @@ class RubleViewController: UIViewController, UITableViewDataSource, UITableViewD
         super.viewDidLoad()
         setDesign()
         addSubviews()
-//        fetchData()
+        fetchData()
+        updateData()
         setConstraints()
     }
     
@@ -51,9 +54,14 @@ class RubleViewController: UIViewController, UITableViewDataSource, UITableViewD
 extension RubleViewController {
     private func setDesign() {
         let appearence = UINavigationBarAppearance()
+        appearence.configureWithOpaqueBackground()
         appearence.backgroundColor = .darkGreen
+        appearence.titleTextAttributes = [.foregroundColor: UIColor.white]
+        appearence.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
         navigationController?.navigationBar.standardAppearance = appearence
+        navigationController?.navigationBar.scrollEdgeAppearance = appearence
         navigationController?.navigationBar.compactAppearance = appearence
+        navigationController?.navigationBar.prefersLargeTitles = false
     }
     
     private func addSubviews() {
@@ -61,7 +69,17 @@ extension RubleViewController {
     }
     
     private func fetchData() {
-        viewModel.fetchData(from: URLS.currencyAPI.rawValue, and: tableView)
+        viewModel.getCurrencies()
+        viewModel.fetchData(from: URLS.currencyAPI.rawValue)
+    }
+    
+    private func updateData() {
+        viewModel.title = { [weak self] newTitle in
+            self?.navigationItem.title = newTitle
+        }
+        viewModel.tableViewUpdated = { [weak self] in
+            self?.tableView.reloadData()
+        }
     }
 }
 

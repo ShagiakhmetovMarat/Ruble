@@ -32,7 +32,7 @@ class RubleCellViewModel: RubleCellViewModelProtocol {
     }
     
     func setCharCode() {
-        charCode.font = .systemFont(ofSize: 22, weight: .bold)
+        charCode.font = .systemFont(ofSize: 26, weight: .semibold)
         charCode.textColor = .white
     }
     
@@ -44,7 +44,7 @@ class RubleCellViewModel: RubleCellViewModelProtocol {
     }
     
     func setValue() {
-        value.font = .systemFont(ofSize: 35, weight: .semibold)
+        value.font = .systemFont(ofSize: 28, weight: .semibold)
         value.textColor = .white
     }
     
@@ -55,15 +55,15 @@ class RubleCellViewModel: RubleCellViewModelProtocol {
     
     func setConstraints(_ contentView: UIView) {
         NSLayoutConstraint.activate([
-            charCode.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-            charCode.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10)
+            flagImage.widthAnchor.constraint(equalToConstant: 65),
+            flagImage.heightAnchor.constraint(equalToConstant: 40),
+            flagImage.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            flagImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10)
         ])
         
         NSLayoutConstraint.activate([
-            flagImage.widthAnchor.constraint(equalToConstant: 90),
-            flagImage.heightAnchor.constraint(equalToConstant: 55),
-            flagImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
-            flagImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10)
+            charCode.leadingAnchor.constraint(equalTo: flagImage.trailingAnchor, constant: 12.5),
+            charCode.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ])
         
         NSLayoutConstraint.activate([

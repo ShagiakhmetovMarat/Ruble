@@ -30,7 +30,6 @@ class SettingViewController: UIViewController, UITableViewDelegate, UITableViewD
         super.viewDidLoad()
         setDesign()
         addSubviews()
-        setData()
         setConstraints()
     }
     
@@ -74,10 +73,6 @@ extension SettingViewController {
         viewModel.addSubviews(subviews: tableView, on: view)
     }
     
-    private func setData() {
-        viewModel.getData()
-    }
-    
     private func transition(row: Int) {
         switch row {
         case 0: currencyViewController()
@@ -90,6 +85,7 @@ extension SettingViewController {
         let currencyVC = CurrencyViewController()
         currencyVC.viewModel = currencyViewModel
         currencyVC.viewModel.delegate = self
+        currencyVC.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(currencyVC, animated: true)
     }
 }
