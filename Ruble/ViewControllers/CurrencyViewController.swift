@@ -26,6 +26,8 @@ class CurrencyViewController: UIViewController, UITableViewDelegate, UITableView
         super.viewDidLoad()
         setDesign()
         addSubviews()
+        setSortedList()
+        updateData()
         setConstraints()
     }
     
@@ -74,6 +76,16 @@ extension CurrencyViewController {
     
     private func addSubviews() {
         viewModel.addSubviews(subviews: tableView, on: view)
+    }
+    
+    private func setSortedList() {
+        viewModel.setSortedList()
+    }
+    
+    private func updateData() {
+        viewModel.tableViewUpdated = { [weak self] in
+            self?.tableView.reloadData()
+        }
     }
     
     private func setConstraints() {

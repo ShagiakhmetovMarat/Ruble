@@ -31,8 +31,10 @@ class RubleViewController: UIViewController, UITableViewDataSource, UITableViewD
         super.viewDidLoad()
         setDesign()
         addSubviews()
+        setCustomKeyboard()
         fetchData()
         updateData()
+        setTapGesture()
         setConstraints()
     }
     
@@ -48,6 +50,11 @@ class RubleViewController: UIViewController, UITableViewDataSource, UITableViewD
         let cell = tableView.dequeueReusableCell(withIdentifier: viewModel.identifier, for: indexPath)
         viewModel.customCell(cell: cell as! RubleCell, indexPath: indexPath)
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        viewModel.showKeyboard(view)
+        print("show keyboard")
     }
 }
 
@@ -68,6 +75,10 @@ extension RubleViewController {
         viewModel.addSubviews(subviews: tableView, on: view)
     }
     
+    private func setCustomKeyboard() {
+        viewModel.setCustomKeyboard(view)
+    }
+    
     private func fetchData() {
         viewModel.getCurrencies()
         viewModel.fetchData(from: URLS.currencyAPI.rawValue)
@@ -79,6 +90,20 @@ extension RubleViewController {
         }
         viewModel.tableViewUpdated = { [weak self] in
             self?.tableView.reloadData()
+        }
+    }
+    
+    private func setTapGesture() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+        tapGesture.cancelsTouchesInView = false
+        view.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc private func handleTap(_ gesture: UITapGestureRecognizer) {
+        let location = gesture.location(in: view)
+        if !viewModel.keyboard.frame.contains(location) {
+            viewModel.hideKeyboard(view)
+            print("hide keyboard")
         }
     }
 }

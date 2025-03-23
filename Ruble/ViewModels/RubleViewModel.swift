@@ -17,17 +17,21 @@ protocol RubleViewModelProtocol {
     var heightOfRows: CGFloat { get }
     var heightOfDistance: CGFloat { get }
     var delegate: SettingViewControllerInput? { get set }
+    var keyboard: CustomKeyboard { get }
     
     func addSubviews(subviews: UIView..., on otherSubview: UIView)
     func contentSize(_ view: UIView) -> CGSize
     func customCell(cell: RubleCell, indexPath: IndexPath)
     func getCurrencies()
     func fetchData(from url: String)
+    func setCustomKeyboard(_ view: UIView)
+    func showKeyboard(_ view: UIView)
+    func hideKeyboard(_ view: UIView)
     func saveData(currencies: [Currency])
     func sendDataToSettingViewController()
 }
 
-class RubleViewModel: RubleViewModelProtocol {
+class RubleViewModel: RubleViewModelProtocol, CustomKeyboardDelegate {
     var title: ((String) -> Void)?
     var tableViewUpdated: (() -> Void)?
     var cell: AnyClass = RubleCell.self
@@ -39,11 +43,13 @@ class RubleViewModel: RubleViewModelProtocol {
     var heightOfRows: CGFloat = 75
     var heightOfDistance: CGFloat = 7
     var delegate: SettingViewControllerInput?
+    var keyboard = CustomKeyboard()
     private var currency: [Currency] = []
     private var activeCurrencies: [Currency] {
         currency.filter({$0.isOn})
     }
     private var dataCurrencies: [DataCurrency] = []
+    private let keyboardHeight: CGFloat = 300
     
     func addSubviews(subviews: UIView..., on otherSubview: UIView) {
         subviews.forEach { subview in
@@ -78,6 +84,28 @@ class RubleViewModel: RubleViewModelProtocol {
                 self.title?("Currency as " + formatter.string(from: date))
             }
         }
+    }
+    
+    func setCustomKeyboard(_ view: UIView) {
+        keyboard.frame = CGRect(x: 0, y: view.frame.height, width: view.frame.width, height: keyboardHeight)
+        keyboard.delegate = self
+        view.addSubview(keyboard)
+    }
+    
+    func showKeyboard(_ view: UIView) {
+        UIView.animate(withDuration: 0.3) { [self] in
+            keyboard.frame.origin.y = view.frame.height - keyboardHeight
+        }
+    }
+    
+    func hideKeyboard(_ view: UIView) {
+        UIView.animate(withDuration: 0.3) {
+            self.keyboard.frame.origin.y = view.frame.height
+        }
+    }
+    
+    func didPressKey(_ key: String) {
+        print("Hello, \(key)")
     }
     
     func saveData(currencies: [Currency]) {
@@ -119,11 +147,18 @@ extension RubleViewModel {
         dataCurrencies.filter({ $0.CharCode == activeCurrencies[indexPath.section].charCode }).first?.CharCode ?? ""
     }
     
-    private func string(_ value: Double) -> String {
+    private func string(_ value: CGFloat) -> String {
         String(format: "%.2f", value)
     }
     
-    private func value(_ indexPath: IndexPath) -> Double {
-        dataCurrencies.filter({ $0.CharCode == activeCurrencies[indexPath.section].charCode }).first?.Value ?? 0
+    private func value(_ indexPath: IndexPath) -> CGFloat {
+        let charCode = activeCurrencies[indexPath.section].charCode
+        let value = dataCurrencies.filter({ $0.CharCode == charCode }).first?.Value ?? 0
+        let nominal = dataCurrencies.filter({ $0.CharCode == charCode }).first?.Nominal ?? 0
+        return setValue(nominal, and: value)
+    }
+    
+    private func setValue(_ nominal: Int, and value: CGFloat) -> CGFloat {
+        nominal > 1 ? value / CGFloat(nominal) : value
     }
 }

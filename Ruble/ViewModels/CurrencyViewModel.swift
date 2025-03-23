@@ -13,12 +13,14 @@ protocol CurrencyViewModelProtocol {
     var identifier: String { get }
     var numberOfSection: Int { get }
     var heightOfRow: CGFloat { get }
+    var tableViewUpdated: (() -> Void)? { get set }
     var delegate: SettingViewControllerInput! { get set }
     
     init(currency: [Currency])
     
     func customCell(cell: CurrencyCell, indexPath: IndexPath)
     func addSubviews(subviews: UIView..., on otherSubview: UIView)
+    func setSortedList()
     func titleHeader(_ section: Int) -> UIView
     func numberOfRows(_ section: Int) -> Int
     func toggle(tableView: UITableView, and indexPath: IndexPath)
@@ -31,6 +33,7 @@ class CurrencyViewModel: CurrencyViewModelProtocol {
     var identifier = "cell"
     var numberOfSection = 2
     var heightOfRow: CGFloat = 50
+    var tableViewUpdated: (() -> Void)?
     var delegate: SettingViewControllerInput!
     private var currency: [Currency] = []
     private var activeCurrencies: [Currency] = []
@@ -52,6 +55,16 @@ class CurrencyViewModel: CurrencyViewModelProtocol {
         subviews.forEach { subview in
             otherSubview.addSubview(subview)
         }
+    }
+    
+    func setSortedList() {
+        if activeCurrencies.isEmpty {
+            currency.sort { $0.name < $1.name }
+        } else {
+            activeCurrencies.sort { $0.name < $1.name }
+            unactiveCurrencies.sort { $0.name < $1.name }
+        }
+        tableViewUpdated?()
     }
     
     func titleHeader(_ section: Int) -> UIView {
