@@ -10,30 +10,32 @@ import UIKit
 protocol RubleViewModelProtocol {
     var title: ((String) -> Void)? { get }
     var tableViewUpdated: (() -> Void)? { get }
+    var isHiddenTabBar: ((Bool) -> Void)? { get }
     var cell: AnyClass { get }
     var identifier: String { get }
     var numberOfRows: Int { get }
     var numberOfSections: Int { get }
     var heightOfRows: CGFloat { get }
     var heightOfDistance: CGFloat { get }
+    var isOnKeyboard: Bool { get }
     var delegate: SettingViewControllerInput? { get set }
-    var keyboard: CustomKeyboard { get }
     
     func addSubviews(subviews: UIView..., on otherSubview: UIView)
     func contentSize(_ view: UIView) -> CGSize
     func customCell(cell: RubleCell, indexPath: IndexPath)
     func getCurrencies()
     func fetchData(from url: String)
-    func setCustomKeyboard(_ view: UIView)
-    func showKeyboard(_ view: UIView)
-    func hideKeyboard(_ view: UIView)
+    func showKeyboard(keyboard: UIView, stackView: UIStackView, and view: UIView)
+    func hideKeyboard(keyboard: UIView, gesture: UITapGestureRecognizer, and view: UIView)
+    func hideKeyboardFromScroll(keyboard: UIView, and view: UIView)
     func saveData(currencies: [Currency])
     func sendDataToSettingViewController()
 }
 
-class RubleViewModel: RubleViewModelProtocol, CustomKeyboardDelegate {
+class RubleViewModel: RubleViewModelProtocol {
     var title: ((String) -> Void)?
     var tableViewUpdated: (() -> Void)?
+    var isHiddenTabBar: ((Bool) -> Void)?
     var cell: AnyClass = RubleCell.self
     var identifier = "cell"
     var numberOfRows = 1
@@ -42,8 +44,8 @@ class RubleViewModel: RubleViewModelProtocol, CustomKeyboardDelegate {
     }
     var heightOfRows: CGFloat = 75
     var heightOfDistance: CGFloat = 7
+    var isOnKeyboard: Bool = false
     var delegate: SettingViewControllerInput?
-    var keyboard = CustomKeyboard()
     private var currency: [Currency] = []
     private var activeCurrencies: [Currency] {
         currency.filter({$0.isOn})
@@ -86,26 +88,28 @@ class RubleViewModel: RubleViewModelProtocol, CustomKeyboardDelegate {
         }
     }
     
-    func setCustomKeyboard(_ view: UIView) {
-        keyboard.frame = CGRect(x: 0, y: view.frame.height, width: view.frame.width, height: keyboardHeight)
-        keyboard.delegate = self
-        view.addSubview(keyboard)
+    func showKeyboard(keyboard: UIView, stackView: UIStackView, and view: UIView) {
+        guard !isOnKeyboard else { return }
+        addSubviews(subviews: keyboard, on: view)
+        setConstraints(keyboard, stackView, and: view)
+        showKeyboard(keyboard: keyboard, and: view)
+        isOnKeyboard.toggle()
+        isHiddenTabBar?(true)
     }
     
-    func showKeyboard(_ view: UIView) {
-        UIView.animate(withDuration: 0.3) { [self] in
-            keyboard.frame.origin.y = view.frame.height - keyboardHeight
+    func hideKeyboard(keyboard: UIView, gesture: UITapGestureRecognizer, and view: UIView) {
+        guard isOnKeyboard else { return }
+        let location = gesture.location(in: view)
+        if !keyboard.frame.contains(location) {
+            hideKeyboard(keyboard: keyboard, and: view)
+            isHiddenTabBar?(false)
         }
     }
     
-    func hideKeyboard(_ view: UIView) {
-        UIView.animate(withDuration: 0.3) {
-            self.keyboard.frame.origin.y = view.frame.height
-        }
-    }
-    
-    func didPressKey(_ key: String) {
-        print("Hello, \(key)")
+    func hideKeyboardFromScroll(keyboard: UIView, and view: UIView) {
+        guard isOnKeyboard else { return }
+        hideKeyboard(keyboard: keyboard, and: view)
+        isHiddenTabBar?(false)
     }
     
     func saveData(currencies: [Currency]) {
@@ -160,5 +164,37 @@ extension RubleViewModel {
     
     private func setValue(_ nominal: Int, and value: CGFloat) -> CGFloat {
         nominal > 1 ? value / CGFloat(nominal) : value
+    }
+    
+    private func setConstraints(_ keyboard: UIView, _ stackView: UIStackView, and view: UIView) {
+        NSLayoutConstraint.activate([
+            keyboard.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            keyboard.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            keyboard.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            keyboard.heightAnchor.constraint(equalToConstant: 300)
+        ])
+        
+        NSLayoutConstraint.activate([
+            stackView.topAnchor.constraint(equalTo: keyboard.topAnchor, constant: 7),
+            stackView.leadingAnchor.constraint(equalTo: keyboard.leadingAnchor, constant: 7),
+            stackView.trailingAnchor.constraint(equalTo: keyboard.trailingAnchor, constant: -7),
+            stackView.bottomAnchor.constraint(equalTo: keyboard.bottomAnchor, constant: -87)
+        ])
+    }
+    
+    private func showKeyboard(keyboard: UIView, and view: UIView) {
+        keyboard.transform = CGAffineTransform(translationX: 0, y: view.frame.height)
+        UIView.animate(withDuration: 0.5) {
+            keyboard.transform = .identity
+        }
+    }
+    
+    private func hideKeyboard(keyboard: UIView, and view: UIView) {
+        UIView.animate(withDuration: 0.5) {
+            keyboard.transform = CGAffineTransform.init(translationX: 0, y: view.frame.height)
+        } completion: { _ in
+            keyboard.removeFromSuperview()
+            self.isOnKeyboard.toggle()
+        }
     }
 }
