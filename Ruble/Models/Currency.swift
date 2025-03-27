@@ -12,4 +12,5 @@ struct Currency: Codable {
     let charCode: String
     let name: String
     var isOn: Bool
+    var value: CGFloat
 }

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 protocol RubleViewModelProtocol {
     var title: ((String) -> Void)? { get }
@@ -18,6 +19,7 @@ protocol RubleViewModelProtocol {
     var heightOfRows: CGFloat { get }
     var heightOfDistance: CGFloat { get }
     var isOnKeyboard: Bool { get }
+    var index: IndexPath? { get }
     var delegate: SettingViewControllerInput? { get set }
     
     func addSubviews(subviews: UIView..., on otherSubview: UIView)
@@ -28,6 +30,10 @@ protocol RubleViewModelProtocol {
     func showKeyboard(keyboard: UIView, stackView: UIStackView, and view: UIView)
     func hideKeyboard(keyboard: UIView, gesture: UITapGestureRecognizer, and view: UIView)
     func hideKeyboardFromScroll(keyboard: UIView, and view: UIView)
+    func playTapSound()
+    func playBackSound()
+    func isSelected(tableView: UITableView, and indexPath: IndexPath)
+    func setValue(sender: UIButton)
     func saveData(currencies: [Currency])
     func sendDataToSettingViewController()
 }
@@ -45,6 +51,7 @@ class RubleViewModel: RubleViewModelProtocol {
     var heightOfRows: CGFloat = 75
     var heightOfDistance: CGFloat = 7
     var isOnKeyboard: Bool = false
+    var index: IndexPath?
     var delegate: SettingViewControllerInput?
     private var currency: [Currency] = []
     private var activeCurrencies: [Currency] {
@@ -64,9 +71,9 @@ class RubleViewModel: RubleViewModelProtocol {
     }
     
     func customCell(cell: RubleCell, indexPath: IndexPath) {
-        cell.viewModel.charCode.text = charCode(indexPath)
+        cell.viewModel.charCode.text = activeCurrencies[indexPath.section].charCode
         cell.viewModel.flagImage.image = UIImage(named: activeCurrencies[indexPath.section].flag)
-        cell.viewModel.value.text = string(value(indexPath))
+        cell.viewModel.value.text = string(activeCurrencies[indexPath.section].value)
         cell.viewModel.name.text = activeCurrencies[indexPath.section].name
         cell.contentView.backgroundColor = .darkGreen
     }
@@ -103,6 +110,8 @@ class RubleViewModel: RubleViewModelProtocol {
         if !keyboard.frame.contains(location) {
             hideKeyboard(keyboard: keyboard, and: view)
             isHiddenTabBar?(false)
+            tableViewUpdated?()
+            index = nil
         }
     }
     
@@ -110,6 +119,29 @@ class RubleViewModel: RubleViewModelProtocol {
         guard isOnKeyboard else { return }
         hideKeyboard(keyboard: keyboard, and: view)
         isHiddenTabBar?(false)
+        tableViewUpdated?()
+        index = nil
+    }
+    
+    func playTapSound() {
+        AudioServicesPlaySystemSound(1104)
+    }
+    
+    func playBackSound() {
+        AudioServicesPlaySystemSound(1155)
+    }
+    
+    func isSelected(tableView: UITableView, and indexPath: IndexPath) {
+        if let cell = tableView.cellForRow(at: indexPath) as? RubleCell {
+            cell.viewModel.value.textColor = cell.viewModel.value.textColor == .white ? .systemGray2 : .white
+            index = indexPath
+        }
+    }
+    
+    func setValue(sender: UIButton) {
+        if let index = index {
+            
+        }
     }
     
     func saveData(currencies: [Currency]) {
@@ -140,15 +172,12 @@ extension RubleViewModel {
             let info = Currency(flag: flags[index],
                                 charCode: charCodes[index],
                                 name: names[index],
-                                isOn: false)
+                                isOn: false,
+                                value: 0)
             currency.append(info)
         }
         
         return currency
-    }
-    
-    private func charCode(_ indexPath: IndexPath) -> String {
-        dataCurrencies.filter({ $0.CharCode == activeCurrencies[indexPath.section].charCode }).first?.CharCode ?? ""
     }
     
     private func string(_ value: CGFloat) -> String {

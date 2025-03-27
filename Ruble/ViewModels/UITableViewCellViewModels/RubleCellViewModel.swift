@@ -26,6 +26,7 @@ class RubleCellViewModel: RubleCellViewModelProtocol {
     var flagImage = UIImageView()
     var value = UILabel()
     var name = UILabel()
+    private let size: CGFloat = 40
     
     func addSubviews(on subview: UIView) {
         addSubviews(subviews: charCode, flagImage, value, name, on: subview)
@@ -38,7 +39,7 @@ class RubleCellViewModel: RubleCellViewModelProtocol {
     
     func setFlagImage() {
         flagImage.clipsToBounds = true
-        flagImage.layer.cornerRadius = 4
+        flagImage.layer.cornerRadius = size / 2
         flagImage.layer.borderWidth = 1
         flagImage.layer.borderColor = UIColor.white.cgColor
     }
@@ -55,8 +56,8 @@ class RubleCellViewModel: RubleCellViewModelProtocol {
     
     func setConstraints(_ contentView: UIView) {
         NSLayoutConstraint.activate([
-            flagImage.widthAnchor.constraint(equalToConstant: 65),
-            flagImage.heightAnchor.constraint(equalToConstant: 40),
+            flagImage.widthAnchor.constraint(equalToConstant: size),
+            flagImage.heightAnchor.constraint(equalToConstant: size),
             flagImage.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             flagImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10)
         ])

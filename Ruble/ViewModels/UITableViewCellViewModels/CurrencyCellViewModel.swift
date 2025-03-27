@@ -23,6 +23,7 @@ class CurrencyCellViewModel: CurrencyCellViewModelProtocol {
     var flagImage = UIImageView()
     var charCode = UILabel()
     var title = UILabel()
+    private let size: CGFloat = 40
     
     func addSubviews(on subview: UIView) {
         addSubviews(subviews: flagImage, charCode, title, on: subview)
@@ -30,7 +31,7 @@ class CurrencyCellViewModel: CurrencyCellViewModelProtocol {
     
     func setImage() {
         flagImage.clipsToBounds = true
-        flagImage.layer.cornerRadius = 4
+        flagImage.layer.cornerRadius = size / 2
         flagImage.layer.borderWidth = 1
     }
     
@@ -44,8 +45,8 @@ class CurrencyCellViewModel: CurrencyCellViewModelProtocol {
     
     func setConstraints(on contentView: UIView) {
         NSLayoutConstraint.activate([
-            flagImage.widthAnchor.constraint(equalToConstant: 55),
-            flagImage.heightAnchor.constraint(equalToConstant: 40),
+            flagImage.widthAnchor.constraint(equalToConstant: size),
+            flagImage.heightAnchor.constraint(equalToConstant: size),
             flagImage.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             flagImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10)
         ])

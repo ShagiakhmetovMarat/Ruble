@@ -32,7 +32,7 @@ struct DataManager {
                 "Canadian dollar", "Chinese yuan", "Czech koruna",
                 "Danish krone", "Euro", "British pound", "Hong Kong dollar",
                 "Hungarian forint", "Indian rupee", "Japanese yen",
-                "Kazahkstani tenge", "Kyrgyz som",
+                "Kazakhstani tenge", "Kyrgyz som",
                 "Moldovan leu", "Norwegian krone", "Polish zloty",
                 "Romanian leu", "Russian ruble", "Singapore dollar",
                 "South Africa rand", "South Korean won", "Swedish krona",

@@ -26,51 +26,59 @@ class RubleViewController: UIViewController, UITableViewDataSource, UITableViewD
     }()
     
     private lazy var buttonOne: UIButton = {
-        setButton(title: "1")
+        setButton(tag: 1)
     }()
     
     private lazy var buttonTwo: UIButton = {
-        setButton(title: "2")
+        setButton(tag: 2)
     }()
     
     private lazy var buttonThree: UIButton = {
-        setButton(title: "3")
+        setButton(tag: 3)
     }()
     
     private lazy var buttonFour: UIButton = {
-        setButton(title: "4")
+        setButton(tag: 4)
     }()
     
     private lazy var buttonFive: UIButton = {
-        setButton(title: "5")
+        setButton(tag: 5)
     }()
     
     private lazy var buttonSix: UIButton = {
-        setButton(title: "6")
+        setButton(tag: 6)
     }()
     
     private lazy var buttonSeven: UIButton = {
-        setButton(title: "7")
+        setButton(tag: 7)
     }()
     
     private lazy var buttonEight: UIButton = {
-        setButton(title: "8")
+        setButton(tag: 8)
     }()
     
     private lazy var buttonNine: UIButton = {
-        setButton(title: "9")
+        setButton(tag: 9)
     }()
     
     private lazy var buttonZero: UIButton = {
-        setButton(title: "0")
+        setButton(tag: 0)
     }()
     
     private lazy var buttonDot: UIButton = {
-        setButton()
+        setButton(tag: 10)
     }()
     
     private lazy var buttonDelete: UIButton = {
-        setButton(image: "delete.left")
+        let size = UIImage.SymbolConfiguration(pointSize: 25)
+        let image = UIImage(systemName: "delete.left", withConfiguration: size)
+        let button = ButtonDelete(type: .custom)
+        button.setImage(image, for: .normal)
+        button.tintColor = .black
+        button.tag = 11
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(handleButton), for: .touchUpInside)
+        return button
     }()
     
     private lazy var stackViewOne: UIStackView = {
@@ -90,7 +98,13 @@ class RubleViewController: UIViewController, UITableViewDataSource, UITableViewD
     }()
     
     private lazy var stackView: UIStackView = {
-        setStackViews(stackViewOne, stackViewTwo, stackViewThree, and: stackViewFour)
+        let stackView = UIStackView(
+            arrangedSubviews: [stackViewOne, stackViewTwo, stackViewThree, stackViewFour])
+        stackView.axis = .vertical
+        stackView.spacing = 7
+        stackView.distribution = .fillEqually
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
     }()
     
     private lazy var keyboard: UIView = {
@@ -102,7 +116,6 @@ class RubleViewController: UIViewController, UITableViewDataSource, UITableViewD
     }()
     
     let viewModel = RubleViewModel()
-    var enableInputClicksWhenVisible: Bool { return true }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -130,6 +143,7 @@ class RubleViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         viewModel.showKeyboard(keyboard: keyboard, stackView: stackView, and: view)
+        viewModel.isSelected(tableView: tableView, and: indexPath)
     }
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
@@ -184,7 +198,8 @@ extension RubleViewController {
     }
     
     @objc private func handleButton(_ sender: UIButton) {
-        
+        sender.tag > 10 ? viewModel.playBackSound() : viewModel.playTapSound()
+        viewModel.setValue(sender: sender)
     }
 }
 
@@ -206,36 +221,15 @@ extension RubleViewController {
 }
 
 extension RubleViewController {
-    private func setButton(title: String) -> UIButton {
-        let button = ButtonNumber(type: .custom)
+    private func setButton(tag: Int) -> UIButton {
+        let button = tag > 9 ? UIButton(type: .custom) : ButtonNumber(type: .custom)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 28, weight: .regular)
-        button.setTitle(title, for: .normal)
+        button.setTitle(tag > 9 ? "." : "\(tag)", for: .normal)
         button.setTitleColor(.black, for: .normal)
-        button.backgroundColor = .white
-        button.layer.cornerRadius = 5
+        button.backgroundColor = tag > 9 ? nil : .white
+        button.layer.cornerRadius = tag > 9 ? 0 : 5
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.tag = Int(title) ?? 0
-        button.addTarget(self, action: #selector(handleButton), for: .touchUpInside)
-        return button
-    }
-    
-    private func setButton(image: String) -> UIButton {
-        let size = UIImage.SymbolConfiguration(pointSize: 25)
-        let image = UIImage(systemName: image, withConfiguration: size)
-        let button = ButtonDelete(type: .custom)
-        button.setImage(image, for: .normal)
-        button.tintColor = .black
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(self, action: #selector(handleButton), for: .touchUpInside)
-        return button
-    }
-    
-    private func setButton() -> UIButton {
-        let button = UIButton(type: .custom)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 28, weight: .regular)
-        button.setTitle(".", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
+        button.tag = tag
         button.addTarget(self, action: #selector(handleButton), for: .touchUpInside)
         return button
     }
